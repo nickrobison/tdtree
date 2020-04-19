@@ -1,4 +1,5 @@
 rootProject.name = 'tdtree-parent'
 
 include 'tdtree'
+include 'tdtree-bench'
 

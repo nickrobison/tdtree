@@ -1,0 +1,21 @@
+ext {
+    jmhVersion = '1.22'
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+application {
+    mainClassName = "org.openjdk.jmh.Main"
+}
+
+shadowJar {
+    archiveFileName = 'microbenchmarks.jar'
+}
+
+dependencies {
+    compile project(":tdtree")
+    compile group: 'org.openjdk.jmh', name: 'jmh-core', version: jmhVersion
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    annotationProcessor group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: jmhVersion
+}
