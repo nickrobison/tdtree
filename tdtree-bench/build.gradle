@@ -4,7 +4,7 @@ plugins {
 }
 
 ext {
-    jmhVersion = '1.22'
+    jmhVersion = '1.23'
 }
 
 application {
