@@ -5,6 +5,7 @@ ext {
 
 
 apply plugin: 'java-library'
+apply plugin: 'jacoco'
 
 dependencies {
     implementation group: 'com.nickrobison' , name: 'fasttuple-core', version: '0.3.0'
@@ -20,4 +21,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+    }
 }
