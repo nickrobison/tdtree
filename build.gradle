@@ -1,0 +1,12 @@
+plugins {
+    id 'java-library'
+}
+
+subprojects {
+    group 'com.nickrobison'
+    version '0.1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
