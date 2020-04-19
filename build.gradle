@@ -2,11 +2,22 @@ plugins {
     id 'java-library'
 }
 
+allprojects {
+
+}
+
 subprojects {
     group 'com.nickrobison'
     version '0.1.0-SNAPSHOT'
 
     repositories {
-        mavenCentral()
+        jcenter()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        withJavadocJar()
+        withSourcesJar()
     }
 }
