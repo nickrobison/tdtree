@@ -1,9 +1,11 @@
+plugins {
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
 ext {
     jmhVersion = '1.22'
 }
-
-apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 application {
     mainClassName = "org.openjdk.jmh.Main"
