@@ -6,25 +6,25 @@ stages:
     jobs:
       - job: Compile
         steps:
-#          - task: SonarCloudPrepare@1
-#            inputs:
-#              SonarCloud: 'Sonar Cloud (FastTuple)'
-#              organization: 'nickrobison-github'
-#              scannerMode: 'Other'
+          - task: SonarCloudPrepare@1
+            inputs:
+              SonarCloud: 'Sonar Cloud (TDTree)'
+              organization: 'nickrobison-github'
+              scannerMode: 'Other'
           - task: Gradle@2
             inputs:
               gradleOptions: '-Xmx3072m'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.11'
               tasks: 'build jacocoTestReport'
-              sonarQubeRunAnalysis: false
-#              sqGradlePluginVersionChoice: 'build'
+              sonarQubeRunAnalysis: true
+              sqGradlePluginVersionChoice: 'build'
               jdkArchitectureOption: 'x64'
               publishJUnitResults: true
               testResultsFiles: '**/test-results/test/TEST-*.xml'
-#          - task: SonarCloudPublish@1
-#            inputs:
-#              pollingTimeoutSec: '300'
+          - task: SonarCloudPublish@1
+            inputs:
+              pollingTimeoutSec: '300'
           - task: CopyFiles@2
             inputs:
               contents: "tdtree/**"
