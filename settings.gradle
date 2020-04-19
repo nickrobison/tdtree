@@ -1,5 +1,2 @@
-rootProject.name = 'tdtree-parent'
-
-include 'tdtree'
-include 'tdtree-bench'
+rootProject.name = 'tdtree'
 

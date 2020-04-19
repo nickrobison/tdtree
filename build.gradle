@@ -1,24 +1,88 @@
 plugins {
     id 'java-library'
     id 'jacoco'
+    id 'org.sonarqube' version '2.8'
+    id "me.champeau.gradle.jmh" version "0.5.0"
 }
 
-allprojects {
-
+ext {
+    junitVersion = '5.6.1'
+    jmhVersion = '1.22'
 }
 
-subprojects {
-    group 'com.nickrobison'
-    version '0.1.0-SNAPSHOT'
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'me.champeau.gradle.jmh'
 
-    repositories {
-        jcenter()
-    }
+group 'com.nickrobison'
+version '0.1.0-SNAPSHOT'
 
-    java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        withJavadocJar()
-        withSourcesJar()
+dependencies {
+    implementation group: 'com.nickrobison', name: 'fasttuple-core', version: '0.3.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.3.1'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    compileOnly group: 'org.checkerframework', name: 'checker-qual', version: '3.3.0'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+
+    jmh ("org.openjdk.jmh:jmh-core:${jmhVersion}")
+    jmh ("org.openjdk.jmh:jmh-generator-annprocess:${jmhVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
     }
+}
+
+repositories {
+    jcenter()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    withJavadocJar()
+    withSourcesJar()
+}
+
+jmh {
+    jmhVersion = jmhVersion
+    include = ['.*Benchmark.*'] // include pattern (regular expression) for benchmarks to be executed
+    benchmarkMode = ["ss"] // Benchmark mode. Available modes are: [Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all]
+    iterations = 8 // Number of measurement iterations to do.
+    timeOnIteration = '1000ms' // Time to spend at each measurement iteration.
+    batchSize = 1 // Batch size: number of benchmark method calls per operation. (some benchmark modes can ignore this setting)
+    fork = 1 // How many times to forks a single benchmark. Use 0 to disable forking altogether
+    failOnError = true // Should JMH fail immediately if any benchmark had experienced the unrecoverable error?
+    forceGC = true // Should JMH force GC between iterations?
+//   jvm = 'myjvm' // Custom JVM to use when forking.
+//   jvmArgs = 'Custom JVM args to use when forking.'
+//   jvmArgsAppend = 'Custom JVM args to use when forking (append these)'
+//   jvmArgsPrepend = 'Custom JVM args to use when forking (prepend these)'
+    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt") // human-readable output file
+    resultsFile = project.file("${project.buildDir}/reports/jmh/results.csv") // results file
+//   operationsPerInvocation = 10 // Operations per invocation.
+//   benchmarkParameters =  [:] // Benchmark parameters.
+//   profilers = [] // Use profilers to collect additional data.
+    resultFormat = 'CSV' // Result format type (one of CSV, JSON, NONE, SCSV, TEXT)
+//   synchronizeIterations = true // Synchronize iterations?
+//   threads = 1 // Number of worker threads to run with.
+//   threadGroups = [2,3,4] //Override thread group distribution for asymmetric benchmarks.
+    timeUnit = 'us' // Output time unit. Available time units are: [m, s, ms, us, ns].
+    verbosity = 'NORMAL' // Verbosity mode. Available modes are: [SILENT, NORMAL, EXTRA]
+    warmup = '1000ms' // Time to spend at each warmup iteration.
+//   warmupBatchSize = 10 // Warmup batch size: number of benchmark method calls per operation.
+//   warmupForks = 0 // How many warmup forks to make for a single benchmark. 0 to disable warmup forks.
+    warmupIterations = 8 // Number of warmup iterations to do.
+//   warmupMode = 'INDI' // Warmup mode for warming up selected benchmarks. Warmup modes are: [INDI, BULK, BULK_INDI].
+//   warmupBenchmarks = ['.*Warmup'] // Warmup benchmarks to include in the run in addition to already selected. JMH will not measure these benchmarks, but only use them for the warmup.
+//   zip64 = true // Use ZIP64 format for bigger archives
 }
