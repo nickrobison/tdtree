@@ -55,7 +55,7 @@ java {
     withSourcesJar()
 }
 pitest {
-    junit5PluginVersion = '0.12' as Property<String>
+    junit5PluginVersion = '0.12'
 }
 
 jmh {
