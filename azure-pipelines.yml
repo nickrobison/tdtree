@@ -45,6 +45,12 @@ stages:
             Windows_Java11:
               imageName: 'vs2017-win2016'
               jdk: '1.11'
+            Mac_Java14:
+              jdk: '1.14'
+              imageName: 'latest'
+            Windows_Java14:
+              imageName: 'latest'
+              jdk: '1.14'
         steps:
           - download: current
             artifact: artifacts
