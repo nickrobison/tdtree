@@ -7,7 +7,7 @@ plugins {
 
 ext {
     junitVersion = '5.6.1'
-    jmhVersion = '1.25'
+    jmhVersion = '1.25.1'
 }
 
 apply plugin: 'java-library'
