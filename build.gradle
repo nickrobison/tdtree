@@ -21,7 +21,7 @@ dependencies {
     implementation group: 'com.nickrobison', name: 'fasttuple-core', version: '0.3.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
-    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.1'
+    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
     compileOnly group: 'org.checkerframework', name: 'checker-qual', version: '3.6.0'
 
