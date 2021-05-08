@@ -6,19 +6,3 @@ updates:
     interval: daily
     time: "10:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: org.openjdk.jmh:jmh-generator-annprocess
-    versions:
-    - "1.28"
-  - dependency-name: org.openjdk.jmh:jmh-core
-    versions:
-    - "1.28"
-  - dependency-name: org.checkerframework:checker-qual
-    versions:
-    - 3.10.0
-    - 3.11.0
-    - 3.9.1
-  - dependency-name: it.unimi.dsi:fastutil
-    versions:
-    - 8.5.1
-    - 8.5.2
