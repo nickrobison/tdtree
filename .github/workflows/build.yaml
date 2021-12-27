@@ -1,0 +1,36 @@
+name: Build and test
+on:
+  workflow_dispatch: # because sometimes you just want to force a branch to have tests run
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/build.yaml
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version:
+          - 11
+          - 17
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Disable shallow clones so Sonar can have all the data
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java-version }}
+      - name: Run Java Tests
+        run: ./gradlew test
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew jacocoTestReport sonarqube --info
+        if: ${{ matrix.java-version == '11' }}
