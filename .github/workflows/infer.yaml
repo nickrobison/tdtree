@@ -22,7 +22,4 @@ jobs:
         run: brew install infer
       - name: Run Infer
         run: |
-          git diff --name-only ${GITHUB_REF#refs/heads/}..origin/main > index.txt
-          infer capture -- ./gradlew build
-          infer analyze --fail-on-issue --eradicate --changed-files-index ./index.txt
-          
+          infer -- ./gradlew build
