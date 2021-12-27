@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'jacoco'
+    id 'maven-publish'
     id 'org.sonarqube' version '3.0'
     id "me.champeau.gradle.jmh" version "0.5.2"
 }
@@ -9,10 +10,6 @@ ext {
     junitVersion = '5.6.1'
     jmhVersion = '1.27'
 }
-
-apply plugin: 'java-library'
-apply plugin: 'jacoco'
-apply plugin: 'me.champeau.gradle.jmh'
 
 group 'com.nickrobison'
 version '0.1.0-SNAPSHOT'
@@ -58,6 +55,43 @@ sonarqube {
         property "sonar.projectKey", "com.nickrobison:tdtree"
         property "sonar.organization", "nickrobison-github"
         property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = "TDTree"
+                description = "Java Implementation of TDTree Indexing Scheme"
+                url = 'https://github.com/nickrobison/tdtree'
+                developers {
+                    developer {
+                        id = 'nickrobison'
+                        name = 'Nick Robison'
+                        email = 'nick@nickrobison.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git:/github.com/nickrobison/tdtree.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:nickrobison/tdtree.git'
+                    url = 'https://github.com/nickrobison/tdtree'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = System.getenv('MAVEN_USER')
+                password =  System.getenv('MAVEN_PASSWORD')
+            }
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
     }
 }
 
